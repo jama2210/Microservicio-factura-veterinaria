@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @AllArgsConstructor
@@ -19,9 +20,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Factura")
-public class Factura {
+public class Factura extends RepresentationModel<Factura> {
     @Id
-    @NotNull(message = "El ID no puede ser nulo")
+    // @NotNull(message = "El ID no puede ser nulo")
     @Positive(message = "El ID debe ser un número positivo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

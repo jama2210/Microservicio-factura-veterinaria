@@ -1,0 +1,4 @@
+micro_facturacion\facturacion\service\FacturaTestService.class
+micro_facturacion\facturacion\repository\FacturaTestRepository.class
+micro_facturacion\facturacion\controller\FacturaTestController.class
+micro_facturacion\facturacion\FacturacionApplicationTests.class

@@ -1,0 +1,8 @@
+micro_facturacion\facturacion\repository\FacturaRepository.class
+micro_facturacion\facturacion\service\FacturaService.class
+micro_facturacion\facturacion\exeption\FacturaNotFound.class
+micro_facturacion\facturacion\model\Factura.class
+micro_facturacion\facturacion\FacturacionApplication.class
+micro_facturacion\facturacion\model\ServicioVeterinario.class
+micro_facturacion\facturacion\controller\FacturaController.class
+micro_facturacion\facturacion\service\ServiceImplementation.class
