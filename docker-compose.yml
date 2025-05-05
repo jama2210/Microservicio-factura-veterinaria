@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: dockerfile
     ports:
-      - "8080:8080"
+      - "9090:9090"
     environment:
       - spring.datasource.url=jdbc:oracle:thin:@tiv84n4pw93enp6d_tp?TNS_ADMIN=/app/bd_prueba_dos/
       - spring.datasource.username=ADMIN
