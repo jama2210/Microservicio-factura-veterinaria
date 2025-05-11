@@ -41,6 +41,5 @@ public class FacturaTestRepository {
         assertEquals(factura.getCliente(), resultado.getCliente());
         assertEquals(factura.getServicio(), resultado.getServicio());
         assertEquals(factura.getCosto(), resultado.getCosto());
-
     }
 }

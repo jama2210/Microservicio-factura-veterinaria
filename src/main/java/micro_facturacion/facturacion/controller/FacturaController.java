@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel; 
@@ -61,20 +63,41 @@ public class FacturaController {
         }
     }
 
+    // @PostMapping
+    // public EntityModel<Factura> createFactura(@RequestBody Factura CreateFactura) {
+    //     Factura newFactura = facturaService.createFactura(CreateFactura);
+    //     return EntityModel.of(newFactura,
+    //             WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarId(newFactura.getId())).withSelfRel(),
+    //             WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarRegistro()).withRel("facturaItems"));
+    // }
+
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public EntityModel<Factura> createFactura(@RequestBody Factura CreateFactura) {
         Factura newFactura = facturaService.createFactura(CreateFactura);
         return EntityModel.of(newFactura,
-                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarId(newFactura.getId())).withSelfRel(),
-                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarRegistro()).withRel("facturaItems"));
-    }
+            WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarId(newFactura.getId())).withSelfRel(),
+            WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarRegistro()).withRel("facturaItems"));
+    }   
+
+
+    // @DeleteMapping("/{id}")
+    // public EntityModel<String> eliminarFactura(@PathVariable Long id) {
+    //     facturaService.eliminarFactura(id);
+    //     return EntityModel.of("Factura eliminada con éxito",
+    //             WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarRegistro()).withRel("facturaItems"));
+    // }
 
     @DeleteMapping("/{id}")
-    public EntityModel<String> eliminarFactura(@PathVariable Long id) {
-        facturaService.eliminarFactura(id);
-        return EntityModel.of("Factura eliminada con éxito",
-                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).buscarRegistro()).withRel("facturaItems"));
+    public ResponseEntity<String> eliminarFactura(@PathVariable Long id) {
+        try {
+            facturaService.eliminarFactura(id);
+            return ResponseEntity.ok("Factura eliminada con éxito");
+        } catch (FacturaNotFound ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Factura no encontrada");
+        }
     }
+
 
     @PutMapping("/{id}")
     public EntityModel<Factura> updateFactura(@PathVariable Long id, @RequestBody Factura updateFactura) {

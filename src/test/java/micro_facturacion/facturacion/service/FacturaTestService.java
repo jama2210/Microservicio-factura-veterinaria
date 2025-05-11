@@ -16,6 +16,7 @@ import micro_facturacion.facturacion.repository.FacturaRepository;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -54,5 +55,63 @@ public class FacturaTestService {
         assertEquals(factura.getCliente(), resultado.getCliente());
         assertEquals(factura.getServicio(), resultado.getServicio());
         assertEquals(factura.getCosto(), resultado.getCosto()); 
+    }
+
+    @Test
+    public void testBuscarFacturas() {
+        Factura factura1 = new Factura(1L, "Cliente 1", "Servicio 1", 100);
+        Factura factura2 = new Factura(2L, "Cliente 2", "Servicio 2", 200);
+        List<Factura> facturas = List.of(factura1, factura2);
+    
+        when(facturaRepository.findAll()).thenReturn(facturas);
+    
+        List<Factura> resultado = serviceImplementation.buscarFactura();
+    
+        assertEquals(2, resultado.size());
+        assertEquals("Cliente 1", resultado.get(0).getCliente());
+        assertEquals("Cliente 2", resultado.get(1).getCliente());
+    }
+
+    @Test
+    public void testBuscarFacturaPorId() {
+        Factura factura = new Factura(1L, "Cliente 1", "Servicio 1", 100);
+    
+        when(facturaRepository.findById(1L)).thenReturn(java.util.Optional.of(factura));
+    
+        Factura resultado = serviceImplementation.buscarId(1L).orElse(null);
+    
+        assertEquals("Cliente 1", resultado.getCliente());
+        assertEquals("Servicio 1", resultado.getServicio());
+        assertEquals(100, resultado.getCosto());
+    }
+
+    @Test
+    public void testActualizarFactura() {
+        Factura original = new Factura(1L, "Original", "Servicio", 100);
+        Factura actualizada = new Factura(1L, "Actualizado", "Nuevo Servicio", 200);
+    
+        when(facturaRepository.existsById(1L)).thenReturn(true);
+        when(facturaRepository.save(actualizada)).thenReturn(actualizada);
+    
+        Factura resultado = serviceImplementation.updateFactura(1L, actualizada);
+    
+        assertEquals("Actualizado", resultado.getCliente());
+        assertEquals("Nuevo Servicio", resultado.getServicio());
+        assertEquals(200, resultado.getCosto());
+    }
+
+    @Test
+    public void testEliminarFactura() {
+        Factura factura = new Factura(1L, "Cliente 1", "Servicio 1", 100);
+    
+        when(facturaRepository.findById(1L)).thenReturn(java.util.Optional.of(factura));
+    
+        serviceImplementation.eliminarFactura(1L);
+    
+        // Verificar que la factura fue eliminada
+        when(facturaRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+        Factura resultado = serviceImplementation.buscarId(1L).orElse(null);
+    
+        assertEquals(null, resultado);
     }
 }

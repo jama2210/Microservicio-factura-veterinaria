@@ -35,11 +35,20 @@ public class ServiceImplementation implements FacturaService {
         facturaRepository.deleteById(id);
     }
 
+    // @Override
+    // public Factura updateFactura(Long id, Factura updateFactura) {
+    //     if(facturaRepository.existsById(id)) {
+    //         updateFactura.setId(id);
+    //         return facturaRepository.save(updateFactura);
+    //     } else {return null;}
+    // }
+
     @Override
     public Factura updateFactura(Long id, Factura updateFactura) {
-        if(facturaRepository.existsById(id)) {
-            updateFactura.setId(id);
-            return facturaRepository.save(updateFactura);
-        } else {return null;}
+    if (!facturaRepository.existsById(id)) {
+        throw new FacturaNotFound(id);
     }
+    updateFactura.setId(id);
+    return facturaRepository.save(updateFactura);
+}
 }
